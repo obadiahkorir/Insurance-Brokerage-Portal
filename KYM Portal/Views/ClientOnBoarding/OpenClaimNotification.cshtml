@@ -1,0 +1,270 @@
+﻿@model IEnumerable<KYM_Portal.Models.ClaimNotification>
+
+@{
+    ViewBag.Title = "OpenClaimNotification";
+}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Open/Pending Approval</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Open Claim Notifications Requests</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-12">
+                <!-- /.card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Open/Pending Approval Claim Notifications Requests</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="row mt-4">
+                            <nav class="w-100">
+                                <div class="nav nav-tabs" id="product-tab" role="tablist">
+                                    <a class="nav-item nav-link active" id="product-desc-tab" data-toggle="tab" href="#product-desc" role="tab" aria-controls="product-desc" aria-selected="true">Open/Pending Claim Notifications</a>
+                                    <a class="nav-item nav-link" id="product-comments-tab" data-toggle="tab" href="#product-comments" role="tab" aria-controls="product-comments" aria-selected="false">Approved Claim Notifications</a>
+                                    @*<a class="nav-item nav-link" id="product-rating-tab" data-toggle="tab" href="#product-rating" role="tab" aria-controls="product-rating" aria-selected="false">Rating</a>*@
+                                </div>
+                            </nav>
+                            <div class="tab-content p-3" id="nav-tabContent">
+                                <div class="tab-pane fade show active" id="product-desc" role="tabpanel" aria-labelledby="product-desc-tab">
+
+
+                                    <table id="example1" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Document No</th>
+                                                <th>Customer No</th>
+                                                <th>Policy No</th>
+                                                <th>Date Of Reporting</th>
+                                                <th>Date Of Accident</th>
+                                                <th>Place Of Occurence Types</th>
+                                                <th>Place Of Occurence</th>
+                                                <th>Status</th>
+                                                <th>Send For Approval</th>
+                                                <th>Edit</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model)
+                                            {
+                                                
+                                                    <tr>
+                                                        <td><a href="@Url.Action("CreateClaimNotification","ClientOnBoarding")">@Html.DisplayFor(model => item.docNo) </a> </td>
+                                                        <td>@Html.DisplayFor(model => item.customerNo)</td>
+                                                        <td>@Html.DisplayFor(model => item.policyNo)</td>
+                                                        <td>@Html.DisplayFor(model => item.dateOfReporting)</td>
+                                                        <td>@Html.DisplayFor(model => item.dateofAccident)</td>
+                                                        <td>@Html.DisplayFor(model => item.placeOfOccurenceTypes)</td>
+                                                        <td>@Html.DisplayFor(model => item.placeOfOccurence)</td>
+                                                        <td>@Html.DisplayFor(model => item.status)</td>
+
+                                                        <td>
+
+                                                            @if (item.status == "Open")
+                                                            {
+                                                                <label class="btn btn-success" onclick="sendLeaveForApproval();"><i class="fa fa-check"></i>Send Approval Request</label>
+                                                            }
+                                                            else if (item.status == "Pending Approval")
+                                                            {
+
+                                                                <label class="btn btn-danger" onclick="cancelLeaveApproval( );"><i class="fa fa-times"></i>Cancel Approval Request</label>
+
+                                                            }
+
+                                                        </td>
+                                                        <td>
+                                                            @if (item.status != "Pending Approval")
+                                                            {
+                                                                int step = 1;
+                                                                <i class="fas fa-pencil">@Html.ActionLink("Edit", "CreateClaimNotification", new { id = item.docNo, step })</i>
+                                                            }
+
+                                                        </td>
+                                                    </tr>
+
+                                           
+                                            }
+
+                                        </tbody>
+
+                                    </table>
+
+
+                                </div>
+                                <div class="tab-pane fade" id="product-comments" role="tabpanel" aria-labelledby="product-comments-tab">
+                                    <table id="example3" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Document No</th>
+                                                <th>Customer No</th>
+                                                <th>Policy No</th>
+                                                <th>Date Of Reporting</th>
+                                                <th>Date Of Accident</th>
+                                                <th>Place Of Occurence Types</th>
+                                                <th>Place Of Occurence</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model)
+                                            {
+                                                if(item.status == "Approved")
+                                                {
+                                                <tr>
+                                                    <td><a href="@Url.Action("CreateClaimNotification","ClientOnBoarding")">@Html.DisplayFor(model => item.docNo) </a> </td>
+                                                    <td>@Html.DisplayFor(model => item.customerNo)</td>
+                                                    <td>@Html.DisplayFor(model => item.policyNo)</td>
+                                                    <td>@Html.DisplayFor(model => item.dateOfReporting)</td>
+                                                    <td>@Html.DisplayFor(model => item.dateofAccident)</td>
+                                                    <td>@Html.DisplayFor(model => item.placeOfOccurenceTypes)</td>
+                                                    <td>@Html.DisplayFor(model => item.placeOfOccurence)</td>
+                                                    <td>@Html.DisplayFor(model => item.status)</td>
+
+                                                    
+                                                </tr>
+
+
+                                            }
+                                                 }
+                                        </tbody>
+
+                                    </table>
+
+
+                                </div>
+                                <div class="tab-pane fade" id="product-rating" role="tabpanel" aria-labelledby="product-rating-tab"> Cras ut ipsum ornare, aliquam ipsum non, posuere elit. In hac habitasse platea dictumst. Aenean elementum leo augue, id fermentum risus efficitur vel. Nulla iaculis malesuada scelerisque. Praesent vel ipsum felis. Ut molestie, purus aliquam placerat sollicitudin, mi ligula euismod neque, non bibendum nibh neque et erat. Etiam dignissim aliquam ligula, aliquet feugiat nibh rhoncus ut. Aliquam efficitur lacinia lacinia. Morbi ac molestie lectus, vitae hendrerit nisl. Nullam metus odio, malesuada in vehicula at, consectetur nec justo. Quisque suscipit odio velit, at accumsan urna vestibulum a. Proin dictum, urna ut varius consectetur, sapien justo porta lectus, at mollis nisi orci et nulla. Donec pellentesque tortor vel nisl commodo ullamcorper. Donec varius massa at semper posuere. Integer finibus orci vitae vehicula placerat. </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+
+
+
+@*<h2>OpenClaimNotification</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.docNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.customerNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.employeeNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.policyNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.claimAgainst)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dependantNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dateOfReporting)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.claimCategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dateofAccident)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.placeOfOccurenceTypes)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.placeOfOccurence)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.customerCategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.status)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.docNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.customerNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.employeeNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.policyNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.claimAgainst)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dependantNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dateOfReporting)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.claimCategory)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dateofAccident)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.placeOfOccurenceTypes)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.placeOfOccurence)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.customerCategory)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.status)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>*@

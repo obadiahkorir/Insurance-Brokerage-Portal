@@ -1,0 +1,191 @@
+﻿@model IEnumerable<KYM_Portal.Models.ClientOnBoard>
+
+@{
+    ViewBag.Title = "OpenClientOnBoardingRequests";
+}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Open/Pending Approval</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Open Client OnBoarding Requests</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-12">
+                <!-- /.card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Open/Pending Approval Client OnBoarding Requests</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="row mt-4">
+                            <nav class="w-100">
+                                <div class="nav nav-tabs" id="product-tab" role="tablist">
+                                    <a class="nav-item nav-link active" id="product-desc-tab" data-toggle="tab" href="#product-desc" role="tab" aria-controls="product-desc" aria-selected="true">Individual Client Applications</a>
+                                    <a class="nav-item nav-link" id="product-comments-tab" data-toggle="tab" href="#product-comments" role="tab" aria-controls="product-comments" aria-selected="false">Corporate Client Applications</a>
+                                    @*<a class="nav-item nav-link" id="product-rating-tab" data-toggle="tab" href="#product-rating" role="tab" aria-controls="product-rating" aria-selected="false">Rating</a>*@
+                                </div>
+                            </nav>
+                            <div class="tab-content p-3" id="nav-tabContent">
+                                <div class="tab-pane fade show active" id="product-desc" role="tabpanel" aria-labelledby="product-desc-tab">
+
+                                  
+                                    <table id="example1" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Document No</th>
+                                                <th>Business Type</th>
+                                                <th>First Name</th>
+                                                <th>Middle Name</th>
+                                                <th>Last Name</th>
+                                                <th>Nationality</th>
+                                                <th>Id/Passport</th>
+                                                <th>Status</th>
+                                                <th>Send For Approval</th>
+                                                <th>Edit</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model)
+                                            {
+                                                if (item.customer_type == "Individual")
+                                                {
+                                                <tr>
+                                                    <td>@Html.DisplayFor(model => item.docNo)</td>
+                                                    <td>@Html.DisplayFor(model => item.business_type)</td>
+                                                    <td>@Html.DisplayFor(model => item.firstName)</td>
+                                                    <td>@Html.DisplayFor(model => item.middleName)</td>
+                                                    <td>@Html.DisplayFor(model => item.lastName)</td>
+                                                    <td>@Html.DisplayFor(model => item.nationality)</td>
+                                                    <td>@Html.DisplayFor(model => item.id_passport)</td>
+                                                    <td>@Html.DisplayFor(model => item.status)</td>
+
+                                                    <td>
+
+                                                        @if (item.status == "Open")
+                                                        {
+                                                            <label class="btn btn-success" onclick="sendLeaveForApproval();"><i class="fa fa-check"></i>Send Approval Request</label>
+                                                        }
+                                                        else if (item.status == "Pending Approval")
+                                                        {
+
+                                                            <label class="btn btn-danger" onclick="cancelLeaveApproval( );"><i class="fa fa-times"></i>Cancel Approval Request</label>
+
+                                                        }
+
+                                                    </td>
+                                                    <td>
+                                                        @if (item.status != "Pending Approval")
+                                                        {
+                                                            int step = 1;
+                                                            @Html.ActionLink("Edit", "NewGlobalClientApplications", new { id = item.docNo, step })
+                                                        }
+
+                                                    </td>
+                                                </tr>
+
+                                                }
+                                            }
+
+                                        </tbody>
+
+                                    </table>
+                                    
+                                     
+                                </div>
+                                <div class="tab-pane fade" id="product-comments" role="tabpanel" aria-labelledby="product-comments-tab">
+                                    <table id="example3" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Document No</th>
+                                                <th>Business Type</th>
+                                                <th>First Name</th>
+                                                <th>Middle Name</th>
+                                                <th>Last Name</th>
+                                                <th>Nationality</th>
+                                                <th>Id/Passport</th>
+                                                <th>Status</th>
+                                                <th>Send For Approval</th>
+                                                <th>Edit</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model)
+                                            {
+                                                if(item.customer_type == "Corporate")
+                                                {
+
+                                              
+                                                <tr>
+                                                    <td>@Html.DisplayFor(model => item.docNo)</td>
+                                                    <td>@Html.DisplayFor(model => item.business_type)</td>
+                                                    <td>@Html.DisplayFor(model => item.firstName)</td>
+                                                    <td>@Html.DisplayFor(model => item.middleName)</td>
+                                                    <td>@Html.DisplayFor(model => item.lastName)</td>
+                                                    <td>@Html.DisplayFor(model => item.nationality)</td>
+                                                    <td>@Html.DisplayFor(model => item.id_passport)</td>
+                                                    <td>@Html.DisplayFor(model => item.status)</td>
+
+                                                    <td>
+
+                                                        @if (item.status == "Open")
+                                                        {
+                                                            <label class="btn btn-success" onclick="sendLeaveForApproval();"><i class="fa fa-check"></i>Send Approval Request</label>
+                                                        }
+                                                        else if (item.status == "Pending Approval")
+                                                        {
+
+                                                            <label class="btn btn-danger" onclick="cancelLeaveApproval( );"><i class="fa fa-times"></i>Cancel Approval Request</label>
+
+                                                        }
+
+                                                    </td>
+                                                    <td>
+                                                        @if (item.status != "Pending Approval")
+                                                        {
+                                                           
+                                                            @Html.ActionLink("Edit", "CorporateClientApplications", new { id = item.docNo })
+                                                        }
+
+                                                    </td>
+                                                </tr>
+                                                }
+                                            }
+                                        </tbody>
+
+                                    </table>
+                                    
+                                     
+                                </div>
+                                <div class="tab-pane fade" id="product-rating" role="tabpanel" aria-labelledby="product-rating-tab"> Cras ut ipsum ornare, aliquam ipsum non, posuere elit. In hac habitasse platea dictumst. Aenean elementum leo augue, id fermentum risus efficitur vel. Nulla iaculis malesuada scelerisque. Praesent vel ipsum felis. Ut molestie, purus aliquam placerat sollicitudin, mi ligula euismod neque, non bibendum nibh neque et erat. Etiam dignissim aliquam ligula, aliquet feugiat nibh rhoncus ut. Aliquam efficitur lacinia lacinia. Morbi ac molestie lectus, vitae hendrerit nisl. Nullam metus odio, malesuada in vehicula at, consectetur nec justo. Quisque suscipit odio velit, at accumsan urna vestibulum a. Proin dictum, urna ut varius consectetur, sapien justo porta lectus, at mollis nisi orci et nulla. Donec pellentesque tortor vel nisl commodo ullamcorper. Donec varius massa at semper posuere. Integer finibus orci vitae vehicula placerat. </div>
+                            </div>
+                        </div>
+
+                       
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+

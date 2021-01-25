@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="KYM_Portal.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="KYM_Portal_KYMService_KYM" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://192.168.101.252:8047/MAJANI/WS/Majani%20Test/Codeunit/KYM</Value>
+    </Setting>
+    <Setting Name="KYM_Portal_NavEXtender_NavXtender" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://192.168.101.252:8047/MAJANI/WS/Majani%20Test/Codeunit/NavXtender</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

@@ -1,0 +1,428 @@
+﻿@model KYM_Portal.Models.ClientOnBoard
+@using System.IO
+@using System.Configuration
+@using System.Text.RegularExpressions;
+
+@{
+    ViewBag.Title = "CorporateClientApplications";
+
+    int step = 1;
+    try
+    {
+        step = Convert.ToInt32(Request.QueryString["step"].ToString());
+        if (step == 0)
+        {
+            step = 1;
+        }
+    }
+    catch (Exception)
+    {
+
+        step = 1;
+    }
+    int maxPages = 2;
+
+}
+
+
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>New Corporate OnBoarding Form</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")">Home</a></li>
+                        <li class="breadcrumb-item active">Corporate OnBoarding Form</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        @if (TempData["error"] != null)
+        {
+            <div class="alert alert-danger" id="alert-danger" role="alert">
+                @TempData["error"]
+            </div>
+
+        }
+        else if (TempData["success"] != null)
+        {
+            <div class="alert alert-success" id="alert-success" role="alert">
+                @TempData["success"]
+            </div>
+
+        }
+        <div class="container-fluid">
+            <!-- SELECT2 EXAMPLE -->
+            @if (step == 1)
+            {
+                using (Html.BeginForm("CorporateClientApplications", "ClientOnBoarding", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="card card-success">
+                        <div class="card-header">
+                            <h3 class="card-title">Corporate Client OnBoarding General Details</h3>
+                            <div class="card-tools">
+
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Customer Category</label>
+                                        @Html.DropDownListFor(model => model.cust_category, ViewBag.List as SelectList, "--select Customer category--", new { @class = "form-control select2", @required = "required" })
+                                        @Html.ValidationMessageFor(model => model.cust_category, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Certificate Of Incorporation No</label>
+                                        @Html.EditorFor(model => model.cert_of_incorporation_no, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                                        @Html.ValidationMessageFor(model => model.cert_of_incorporation_no, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                @*<div class="col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Country Of Residence</label>
+                                        @Html.DropDownListFor(model => model.countryOfResidence, ViewBag.List7 as SelectList, "--select country of residence--", new { @class = "form-control select2", id = "countryOfResidence", @required = "required" })
+                                        @Html.ValidationMessageFor(model => model.countryOfResidence, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>*@
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Business Type</label>
+                                        @Html.DropDownListFor(model => model.business_type, ViewBag.List2 as SelectList, "--select Business Type--", new { @class = "form-control select2", @required = "required" })
+                                        @Html.ValidationMessageFor(model => model.business_type, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Nature Of Business</label>
+                                        @Html.EditorFor(model => model.nature_of_business, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                                        @Html.ValidationMessageFor(model => model.nature_of_business, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                @*<div class="col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Nationality</label>
+                                        @Html.DropDownListFor(model => model.nationality, new SelectList(string.Empty, "Value", "Text"), "--Select Nationality--", new { @class = "form-control", id = "nationality", @required = "required" })
+
+
+                                        @Html.ValidationMessageFor(model => model.nationality, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>*@
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Company Name</label>
+                                        @Html.EditorFor(model => model.company_name, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                                        @Html.ValidationMessageFor(model => model.company_name, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Office Location</label>
+                                        @Html.EditorFor(model => model.office_location, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                                        @Html.ValidationMessageFor(model => model.office_location, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                               
+
+                               
+                            </div>
+                            <div class="row">
+                             
+                                    <div class="col-md-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label>Country Of Residence</label>
+                                            @Html.DropDownListFor(model => model.countryOfResidence, ViewBag.List7 as SelectList, "--select country of residence--", new { @class = "form-control select2", id = "countryOfResidence", @required = "required" })
+                                            @Html.ValidationMessageFor(model => model.countryOfResidence, "", new { @class = "text-danger" })
+
+                                        </div>
+                                    </div>
+                                <div class="col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Building</label>
+                                        @Html.EditorFor(model => model.building, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                                        @Html.ValidationMessageFor(model => model.building, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                    
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label>County </label>
+                                        @Html.DropDownListFor(model => model.countyCode, ViewBag.List9 as SelectList, "--select county code--", new { @class = "form-control select2", id = "countyCode", @required = "required" })
+                                        @Html.ValidationMessageFor(model => model.countyCode, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Mpesa No</label>
+                                        @Html.EditorFor(model => model.mpesaNo, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                                        @Html.ValidationMessageFor(model => model.mpesaNo, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                               
+
+                               
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Pin No</label>
+                                        @Html.EditorFor(model => model.pinNo, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                                        @Html.ValidationMessageFor(model => model.pinNo, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Bank Account No</label>
+                                        @Html.EditorFor(model => model.bank_acc_no, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                                        @Html.ValidationMessageFor(model => model.bank_acc_no, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Bank Name</label>
+                                        @Html.EditorFor(model => model.bank_name, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                                        @Html.ValidationMessageFor(model => model.bank_name, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                           
+
+                            <h3 style="text-align:center;"><strong> Contact and Communication Detail</strong></h3>
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Tel/Mobile No. </label>
+                                        @Html.EditorFor(model => model.tel_mobileNo, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                                        @Html.ValidationMessageFor(model => model.tel_mobileNo, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label>City</label>
+                                        @Html.DropDownListFor(model => model.city, new SelectList(string.Empty, "Value", "Text"), "--Select City--", new { @class = "form-control", id = "city", @required = "required" })
+
+                                        @Html.ValidationMessageFor(model => model.city, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Tel/Mobile No2. </label>
+                                        @Html.EditorFor(model => model.tel_mobileNo2, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.tel_mobileNo2, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Facebook</label>
+                                        @Html.EditorFor(model => model.facebook, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.facebook, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Email </label>
+                                        @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control", @type = "email", @required = "required" } })
+                                        @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Twitter</label>
+                                        @Html.EditorFor(model => model.twitter, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.twitter, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Address </label>
+                                        @Html.EditorFor(model => model.address, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                                        @Html.ValidationMessageFor(model => model.address, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label>LinkedIn</label>
+                                        @Html.EditorFor(model => model.linkedIn, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.linkedIn, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Postal Code </label>
+                                        @Html.DropDownListFor(model => model.postCode, ViewBag.List8 as SelectList, "--select postal code--", new { @class = "form-control select2", id = "postCode", @required = "required" })
+                                        @Html.ValidationMessageFor(model => model.postCode, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Google+</label>
+                                        @Html.EditorFor(model => model.googlePlus, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.googlePlus, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <input type="submit" value="Next" class="btn btn-primary float-right" />
+                            <div class="clearfix"></div>
+                        </div>
+
+                    </div>
+                }
+            }
+            else if (step == 2)
+            {
+                <div class="card card-success">
+                    <div class="card-header">
+                        <h3 class="card-title">Upload Supporting Documents </h3>
+                        <div class="card-tools">
+
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            @using (Html.BeginForm("UploadCorporateDocuments", "ClientOnBoarding", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                    <div class="form-group">
+                                        <h5>Upload  Documents:</h5>
+                                        <input type="file" name="ImageFile" required style="padding-top: 0px;" />
+                                    </div>
+                                    <div class="form-group" style="position:absolute;top:30px;margin-left:190px;">
+                                        <div class="col-md-offset-2 col-md-10">
+                                            <input type="submit" value="Upload" class="btn btn-primary" />
+                                        </div>
+                                    </div>
+
+                                </div>
+                            }
+
+                        </div>
+
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>List of uploaded documents</th>
+
+                                    @*<th>Download</th>
+                                        <th>Delete</th>*@
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @try
+                                {
+                                    String fileFolderApplication = ConfigurationManager.AppSettings["FileFolderApplication"];
+                                    String filesFolder = ConfigurationManager.AppSettings["FilesLocation"] + "Global Corporate Application/";
+
+                                    string appNo = Session["appNo"].ToString();
+
+                                    String documentDirectory = filesFolder + appNo + "/";
+                                    if (Directory.Exists(documentDirectory))
+                                    {
+                                        foreach (String file in Directory.GetFiles(documentDirectory, "*.*", SearchOption.AllDirectories))
+
+                                        {
+                                            String url = documentDirectory;
+                                            String fileName = file.Replace(documentDirectory, "");
+                                            fileName = Regex.Replace(fileName, @"[^0-9a-zA-Z]+", ",");
+
+                                            <tr>
+                                                <td>   @file.Replace(documentDirectory, "")</td>
+                                                <td><a href="@Url.Action("Delete", "ClientOnBoarding",new { imageName= file.Replace(documentDirectory, "")})">Delete</a> </td>
+
+
+
+                                            </tr>
+
+
+
+                                        }
+
+
+                                    }
+                                }
+                                catch (Exception)
+                                {
+
+                                }
+                            </tbody>
+
+                        </table>
+                    </div>
+                    <div class="card-footer">
+                        @using (Html.BeginForm("SendCorporateForApproval", "ClientOnBoarding", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <input type="submit" value="Send For Approval" class="btn btn-primary float-right" />
+                        }
+                        @Html.ActionLink("Previous", "GoStep1", "ClientOnBoarding", null, new { @class = "btn btn-warning float-left" })
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+
+            }
+
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->

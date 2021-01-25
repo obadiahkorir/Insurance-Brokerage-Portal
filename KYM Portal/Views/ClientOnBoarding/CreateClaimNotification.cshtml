@@ -1,0 +1,162 @@
+﻿@model KYM_Portal.Models.ClaimNotification
+@{
+    ViewBag.Title = "CreateClaimNotification";
+}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>New Claim Notification Form</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")">Home</a></li>
+                        <li class="breadcrumb-item active">Corporate OnBoarding Form</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        @if (TempData["error"] != null)
+        {
+            <div class="alert alert-danger" id="alert-danger" role="alert">
+                @TempData["error"]
+            </div>
+
+        }
+        else if (TempData["success"] != null)
+        {
+            <div class="alert alert-success" id="alert-success" role="alert">
+                @TempData["success"]
+            </div>
+
+        }
+        <div class="container-fluid">
+            <!-- SELECT2 EXAMPLE -->
+            
+               
+                    <div class="card card-success">
+                        <div class="card-header">
+                            <h3 class="card-title">Claim Notification General Details</h3>
+                            <div class="card-tools">
+
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                        @using (Html.BeginForm("CreateClaimNotification", "ClientOnBoarding", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="row">
+                                <div class="col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label>Customer</label>
+                                        @Html.DropDownListFor(model => model.customerNo, ViewBag.List as SelectList, "--select Customer --", new { @class = "form-control select2", @required = "required",id= "customerNo" })
+                                        @Html.ValidationMessageFor(model => model.customerNo, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label>Policy No</label>
+                                        @Html.DropDownListFor(model => model.policyNo, new SelectList(string.Empty, "Value", "Text"), "--Select policy--", new { @class = "form-control", id = "policyNo", @required = "required" })
+
+                                        @Html.ValidationMessageFor(model => model.policyNo, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                           </div>
+                        <div class="row">
+                            <div class="col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <label>Claim Against</label>
+                                    @Html.DropDownListFor(model => model.claimAgainst, ViewBag.List1 as SelectList, "--select claim against --", new { @class = "form-control select2", @required = "required" })
+                                    @Html.ValidationMessageFor(model => model.claimAgainst, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <label>Dependant No</label>
+                                    @Html.DropDownListFor(model => model.dependantNo, new SelectList(string.Empty, "Value", "Text"), "--Select dependant--", new { @class = "form-control", id = "dependantNo" })
+                                    @Html.ValidationMessageFor(model => model.dependantNo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label>Claim Category</label>
+                                        @Html.DropDownListFor(model => model.claimCategory, ViewBag.List2 as SelectList, "--select claim against --", new { @class = "form-control select2", @required = "required" })
+                                        @Html.ValidationMessageFor(model => model.claimCategory, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label>Date Of Accident/Death/Loss</label>
+                                        @Html.EditorFor(model => model.dateofAccident, new { htmlAttributes = new { @class = "form-control", @required = "required", type = "date" } })
+                                        @Html.ValidationMessageFor(model => model.dateofAccident, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class="col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label>Place of Occurence Types</label>
+                                        @Html.DropDownListFor(model => model.placeOfOccurenceTypes, ViewBag.List3 as SelectList, "--select claim against --", new { @class = "form-control select2", @required = "required" })
+                                        @Html.ValidationMessageFor(model => model.placeOfOccurenceTypes, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label>Place Of Occurence</label>
+                                        @Html.EditorFor(model => model.placeOfOccurence, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                                        @Html.ValidationMessageFor(model => model.placeOfOccurence, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                </div>
+                                <div class="col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label>Customer Category</label>
+                                        @Html.DropDownListFor(model => model.customerCategory, ViewBag.List4 as SelectList, "--select customer category --", new { @class = "form-control select2", @required = "required" })
+                                        @Html.ValidationMessageFor(model => model.customerCategory, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="form-group">
+                                    <input type="submit" value="Create Notification" class="btn btn-info" />
+                                </div>
+                                }
+                            </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            @using (Html.BeginForm("SendClaimNotificationForValidation", "ClientOnBoarding", FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                <input type="submit" value="Send Claim Notification For Validation" class="btn btn-primary float-right" />
+                            }
+                           
+                            <div class="clearfix"></div>
+                        </div>
+
+                    </div>
+               
+           
+
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
